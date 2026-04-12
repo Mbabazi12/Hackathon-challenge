@@ -26,7 +26,7 @@ An offline-first, full-stack asset inventory management web application built wi
 - ✅ **Pagination** - Efficient data handling with pagination
 - ✅ **Modal Forms** - Smooth form interactions
 
-## 📁 Project Structure
+<!-- ## 📁 Project Structure
 
 ```
 ├── app/
@@ -76,7 +76,7 @@ An offline-first, full-stack asset inventory management web application built wi
 ├── package.json                # Dependencies
 ├── next.config.js              # Next.js configuration
 └── README.md                   # This file
-```
+``` -->
 
 ## 🚀 Getting Started
 
