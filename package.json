@@ -1,0 +1,38 @@
+{
+  "name": "airtel-asset-inventory",
+  "version": "1.0.0",
+  "description": "Offline-first asset inventory management system for Airtel",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "next": "^14.0.0",
+    "@prisma/client": "^5.7.0",
+    "zustand": "^4.4.7",
+    "tailwindcss": "^3.3.0",
+    "recharts": "^2.10.0",
+    "lucide-react": "^0.294.0",
+    "date-fns": "^2.30.0",
+    "workbox-window": "^7.0.0",
+    "papaparse": "^5.4.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "@types/papaparse": "^5.3.14",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "ts-node": "^10.9.1",
+    "prisma": "^5.7.0"
+  }
+}

@@ -1,0 +1,110 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Asset {
+  id              String      @id @default(cuid())
+  assetId         String      @unique // Auto-generated unique ID
+  deviceType      String      // laptop, desktop, mobile-phone
+  brand           String
+  model           String
+  serialNumber    String      @unique
+  specifications  String      // JSON string for flexibility
+  purchaseDate    DateTime
+  condition       String      @default("good") // new, good, damaged
+  status          String      @default("available") // available, assigned, damaged, returned
+  location        String?     // Physical location
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  assignments     Assignment[]
+  auditLogs       AuditLog[]
+  conditionHistories ConditionHistory[]
+
+  @@index([assetId])
+  @@index([deviceType])
+  @@index([status])
+}
+
+model Employee {
+  id              String      @id @default(cuid())
+  employeeId      String      @unique
+  name            String
+  email           String?
+  department      String
+  designation     String?
+  phone           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  assignments     Assignment[]
+  auditLogs       AuditLog[]
+
+  @@index([department])
+  @@index([employeeId])
+}
+
+model Assignment {
+  id              String      @id @default(cuid())
+  assetId         String
+  employeeId      String
+  assignmentDate  DateTime
+  returnDate      DateTime?   // null if still assigned
+  status          String      @default("assigned") // assigned, returned
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  asset           Asset       @relation(fields: [assetId], references: [id])
+  employee        Employee    @relation(fields: [employeeId], references: [id])
+
+  @@unique([assetId, status])
+  @@index([assetId])
+  @@index([employeeId])
+  @@index([status])
+}
+
+model AuditLog {
+  id              String      @id @default(cuid())
+  assetId         String?
+  employeeId      String?
+  action          String      // assign, return, update, create, delete
+  description     String
+  previousValue   String?     // JSON string
+  newValue        String?     // JSON string
+  timestamp       DateTime    @default(now())
+  userId          String?     // User who performed action
+  
+  // Relations
+  asset           Asset?      @relation(fields: [assetId], references: [id])
+  employee        Employee?   @relation(fields: [employeeId], references: [id])
+
+  @@index([assetId])
+  @@index([employeeId])
+  @@index([timestamp])
+}
+
+model ConditionHistory {
+  id              String      @id @default(cuid())
+  assetId         String
+  previousCondition String
+  newCondition    String
+  reason          String?
+  changedAt       DateTime    @default(now())
+  
+  // Relations
+  asset           Asset       @relation(fields: [assetId], references: [id])
+
+  @@index([assetId])
+  @@index([changedAt])
+}
